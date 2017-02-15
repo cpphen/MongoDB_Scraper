@@ -1,0 +1,74 @@
+.jumbotron {
+  text-align: center;
+  /*border-bottom: 1px solid #e5e5e5;*/
+  /*background-color: transparent !important;*/
+  background: url('/assets/img/nintendo.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 500px;
+}
+.navLI, .navTitle{
+	color: white;
+}
+.jumboH{
+	color: white;
+	margin-top: 100px;
+}
+.navContainer{
+	background-color: #9999cc;
+}
+#main{
+	margin-bottom: 200px;
+}
+.modal {
+    /*display: block; *//* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    /*background-color: #fefefe;*/
+    background-image: url(/assets/img/videoGame.jpg);
+    background-size: cover;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%; /* Could be more or less, depending on screen size */
+    height: 300px;
+    text-align: center;
+    overflow: auto;
+}
+
+/* The Close Button */
+
+span.close {
+    color: #ff0099;
+    float: right;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.numArticles{
+	margin-top: 100px;
+	color: orange;
+}
+.media-heading{
+	background-color: #ffff00;
+}
+.btn{
+	width: 200px;
+}

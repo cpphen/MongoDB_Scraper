@@ -1,0 +1,16 @@
+	
+{{#each theArticles}}
+	<div class="media" style="margin-top: 20px;">
+		<div class="media-left media-top">
+
+			    <a href="www.gamespot.com{{this.link}}" target="_blank">
+			      <img class="media-object" src="{{this.img}}">
+			    </a>
+		</div>
+		<div class="media-body">
+			    <a href="http://www.gamespot.com{{this.link}}" target="_blank"><h4 class="media-heading">{{this.title}}</h4></a>
+			    <h4 class="media-heading" style="background-color: #ff6633">{{this.description}}</h4>
+
+		</div>
+	</div>
+{{/each}}

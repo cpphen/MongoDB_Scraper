@@ -1,0 +1,56 @@
+	 <div class="container-fluid navContainer">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            	<li role="presentation"><a class="navLI" href="/">Home</a></li>
+            	<li role="presentation"><a class="navLI" href="/saved">Saved Articles</a></li>
+            	<li role="presentation"><a class="navLI scrape" href="/scrape">Scrape Articles</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted navTitle">Game Scraper</h3>
+      </div>
+     </div>
+
+	  <div class="jumbotron">
+        <h1 class="jumboH">Game Scraper</h1>
+      </div>
+
+
+
+	 {{#if moreStuff}}
+		{{#each moreStuff}}
+
+			<div class="media" style="margin-top: 20px;">
+			  <div class="media-left media-top">
+
+			    <a href="www.gamespot.com{{this.link}}" target="_blank">
+			      <img class="media-object" src="{{this.img}}">
+			    </a>
+			  </div>
+			  <div class="media-body">
+			    <a href="http://www.gamespot.com{{this.link}}" target="_blank"><h4 class="media-heading">{{this.title}}</h4></a>
+			    <h4 class="media-heading" style="background-color: #ff6633">{{this.description}}<span><button class="btn btn-lg btn-primary btn-block"><a href="/save/{{this.articleID}}">Save Article</a></button></span></h4>
+
+			  </div>
+			</div>
+ 
+		{{/each}}
+
+		{{else}}
+			<h1 class="panel panel-warning">Uh-Oh Looks like you didn't Scrape!<h1>
+			
+	{{/if}}
+	{{#if finishScrape}}
+
+		<div style="display: block" id="myModal" class="modal">
+
+		  <!-- Modal content -->
+		  <div style="width: 530px;" class="container modal-content">
+		    <span class="close">&times;</span>
+		  	<h1 class="numArticles">Added {{arrLength}} articles</h1>
+		  </div>
+
+		</div>
+
+	{{/if}}
+

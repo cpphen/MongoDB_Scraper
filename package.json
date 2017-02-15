@@ -1,0 +1,27 @@
+{
+  "name": "mongoscraper",
+  "version": "1.0.0",
+  "description": "Use MongoDB, MVC pattern, and web scraping to create an app that will feature commenting on articles.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/henhen87/MongoDB_Scraper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/henhen87/MongoDB_Scraper/issues"
+  },
+  "homepage": "https://github.com/henhen87/MongoDB_Scraper#readme",
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "cheerio": "^0.22.0",
+    "express": "^4.14.1",
+    "express-handlebars": "^3.0.0",
+    "mongoose": "^4.8.2",
+    "request": "^2.79.0"
+  }
+}
