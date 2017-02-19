@@ -1,4 +1,20 @@
-	
+<div class="container-fluid navContainer">
+	<div class="header clearfix">
+		<nav>
+		  <ul class="nav nav-pills pull-right">
+		    	<li role="presentation"><a class="navLI" href="/">Home</a></li>
+		    	<li role="presentation"><a class="navLI" href="/saved">Saved Articles</a></li>
+		    	<li role="presentation"><a class="navLI scrape" href="/scrape">Scrape Articles</a></li>
+		  </ul>
+		</nav>
+		<h3 class="text-muted navTitle">Game Scraper</h3>
+	</div>
+</div>
+
+<div class="jumbotron">
+	<h1 class="jumboH">Saved Articles</h1>
+</div>	
+
 {{#each theArticles}}
 	<div class="media" style="margin-top: 20px;">
 		<div class="media-left media-top">
@@ -9,8 +25,27 @@
 		</div>
 		<div class="media-body">
 			    <a href="http://www.gamespot.com{{this.link}}" target="_blank"><h4 class="media-heading">{{this.title}}</h4></a>
-			    <h4 class="media-heading" style="background-color: #ff6633">{{this.description}}</h4>
-
+			    <h4 class="media-heading" style="background-color: #ff6633">{{this.description}}<span><button class="btn btn-lg btn-primary btn-block" id="articleNotes" data-article-id="{{this._id}}">Article Notes</button></span></h4>
 		</div>
 	</div>
+
+
 {{/each}}
+	
+	<div class="main-popup">
+
+	  <!-- Modal content -->
+	  <div class="inner-popup" style="width: 530px;">
+	    <span class="close">&times;</span>
+	  	
+	  	<div class="container comments">	
+	  	</div>
+
+	  	<div class="form-group">
+		  <label for="comment">Comment:</label>
+		  <textarea class="form-control" name="comment" rows="5" id="comment"></textarea>
+		  <button type="submit" class="btn btn-success" id="commentButton">Submit</button>
+		</div>
+	  </div>
+
+	</div>
