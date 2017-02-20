@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 //Database set up
-var mongoose = require('mongoose');
+// var mongoose = require('mongoose');
 
 //Import the models
 var Article = require('../models/Article');
@@ -13,18 +13,18 @@ var request = require('request');
 var cheerio = require('cheerio');
 
 //Connect to database
-mongoose.connect("mongodb://localhost");
-var db = mongoose.connection;
+// mongoose.connect("mongodb://localhost");
+// var db = mongoose.connection;
 
-//Show errors in any
-db.on('error', function(err){
-	console.log("Mongoose Error: ", err);
-});
+// //Show errors in any
+// db.on('error', function(err){
+// 	console.log("Mongoose Error: ", err);
+// });
 
-//Show connection notification if connected
-db.once('open', function(){
-	console.log('Successfully connected to mongoose!');
-});
+// //Show connection notification if connected
+// db.once('open', function(){
+// 	console.log('Successfully connected to mongoose!');
+// });
 
 var scrapeResults = [];
 
