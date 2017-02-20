@@ -89,9 +89,9 @@ router.get('/scrape', function(req, response){
 			articleCounter++;
 
 		});
-	response.redirect('/home')
 	});
 
+	response.redirect('/home')
 
 });
 
