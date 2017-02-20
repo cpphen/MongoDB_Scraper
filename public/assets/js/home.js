@@ -14,7 +14,8 @@ function close(){
 
 window.onclick = function(event) {
 	console.log("over here outside modal");
-	console.log("event target", event.target.id);
+	console.log("event target", event.target);
+	console.log("event target id", event.target.id);
 
     if(event.target.id === 'myModal') {
         // $('#myModal').css('display', 'none');
@@ -38,6 +39,7 @@ function saveArticle(){
 
 		//****************************************
 		//After post is done, change or refresh page back changing url to the same url.
+		$('#myModal').css('display', 'none');
 		window.location = window.location;
 	});
 }

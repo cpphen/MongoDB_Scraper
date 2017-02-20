@@ -6,11 +6,12 @@ var CommentSchema = new Schema({
 
 	comment: {
 		type: String
-	},
-	article: {
-		type: Schema.Types.ObjectId,
-		ref: 'Article'
 	}
+	// ,
+	// article: {
+	// 	type: Schema.Types.ObjectId,
+	// 	ref: 'Article'
+	// }
 
 });
 

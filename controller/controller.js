@@ -26,9 +26,6 @@ db.once('open', function(){
 	console.log('Successfully connected to mongoose!');
 });
 
-/******************************************************************/
-//This array will be the empty array I store my scraped articles in. Instead of saving it directly into database
-//after scraping, the data will get stored in here. See 'router.get('/scrape')'
 var scrapeResults = [];
 
 router.get('/', function(req, res){
@@ -64,23 +61,23 @@ router.get('/scrape', function(req, response){
 			// var scrapedStuff = {};
 
 			var articleID = articleCounter;
-
 			var title = $(this).attr('data-event-title');
 			var link = $(this).attr('href');
 			var img = $(this).children('figure').children('div.media-img').children('img').attr('src');
 			var description = $(this).children('div.media-body').children('p.media-deck').text();
 
-			/*****************************************************************/
-			//Here is when scraped object is stored in the empty array. Notice the variable articleCounter = 1
-			//at the top of this route. This is put inside the object below and then incremented after for the next
-			//scraped article. This counter variable will be used to assign data to a button in home.handlebars file
-			//on line 36. <span><button id="save" data-id="{{this.articleID}}" when at the end of this route
-			//I redirect to '/home' where I make an object and assign the array holding the articles to the property
-			//'moreStuff' and then render it onto the home.handlebars. Next, refer to home.js file and take a 
-			//look at the 'saveArticle' function which is called when the button that has the counter id data is clicked. 
-			//Grab the data-id value, which is the counter variable above, like
-			//so: var article = $(this).attr('data-id');. Then send it to the post request route '/save'. Next step
-			//is look at home.js and the router.post('/save') on line 114  
+
+			// var newsStory = new Article(scrapedStuff);
+
+			// newsStory.save(function(err, doc){
+			// 	if(err){
+			// 		console.log(err);
+			// 	}else{
+			// 		console.log(doc);
+			// 	}
+			// 	// res.redirect('/home/scraped')
+			// });
+
 			scrapeResults.push({
 				articleID: articleID,
 				title: title,
@@ -119,14 +116,6 @@ router.post('/save', function(req, res){
 
 	console.log('REQ BODY BODY', req.body);
 	console.log('REQ BODY', req.body.article);
-
-	/*****************************************************************/
-	//Here is where that counter variable which is now req.body.article from the post request in home.js 'saveArticle'
-	//is used. In the for loop, if the index array that holds the articles, matches the counter variable number i set as 
-	//explained above (var articleCounter), then get that specific index of the array that holds the scraped articles
-	//and save it, then break out of loop. The req.body.article had to has to be parseInt as post requests that send
-	//number as data will be a string and will not match against a real integer. The res.send('done') at bottom does
-	//nothing except to send a response so this route will end.
 	var bodyNum = parseInt(req.body.article);
 	
 	for(var i = 0; i < scrapeResults.length; i++){
@@ -155,10 +144,6 @@ router.post('/save', function(req, res){
 		}
 	}
 	console.log('scrapeResults IIII', i);
-	//*********************************************************************
-	//This is just deleting the specific index of the array that gets saved, so that when this route finishes and 
-	//goes to the callback function that called this route in home.js, the page is refreshed so the number of articles
-	//will update.
 	scrapeResults.splice(i, 1);
 	console.log("scrapeResults splice", scrapeResults);
 	// req.session.seenModal = true;
@@ -197,32 +182,46 @@ router.post('/comments/:id', function(req, res){
 		if(err){
 			console.log(err);
 		}else{
-			// Article.findOneAndUpdate({ "_id": req.params.id }, { "comment": doc._id }).exec(function(err, doc){
-			// 	if(err){
-			// 		console.log(err);
-			// 	}else{
-			// 		// var postData = {
-			// 		// 	theData: doc
-			// 		// }
-			// 		console.log('\n\n\n')
-			// 		console.log('DOC inside of COMMENT POST after findone', doc);
-
-			// 		res.send(doc);
-			// 	}
-			// });
-			Comment.findOneAndUpdate({ "_id": doc._id }, { "article": req.params.id }).exec(function(err, doc){
+			Article.findOneAndUpdate({ "_id": req.params.id }, {$push: { "comment": doc._id }}).exec(function(err, doc){
 				if(err){
 					console.log(err);
-					res.send(err);
 				}else{
+					// var postData = {
+					// 	theData: doc
+					// }
 					console.log('\n\n\n')
-					console.log('DOC inside of COMMENT POST ELSE', doc);
+					console.log('DOC inside of COMMENT POST after findone', doc);
+
 					res.send(doc);
 				}
 			});
+			// Comment.findOneAndUpdate({ "_id": doc._id }, { "article": req.params.id }).exec(function(err, doc){
+			// 	if(err){
+			// 		console.log(err);
+			// 		res.send(err);
+			// 	}else{
+			// 		console.log('\n\n\n')
+			// 		console.log('DOC inside of COMMENT POST ', doc);
+			// 		res.send(doc);
+			// 	}
+			// });
 		}
 	});
 
+});
+
+router.post('/comment/delete/:id', function(req, res){
+	console.log('COMMENT DELETE REQ BODY', req.body);
+	console.log('COMMENT DELETE REQ BODY.COMMENT', req.body.comment);
+	console.log('COMMENT DELETE REQ PARAMS', req.params.id);
+	Article.findOneAndUpdate({ "_id": req.params.id }, { $pull: { "comment": req.body.comment }}).exec(function(err, doc){
+		if(err){
+			console.log(err);
+			res.send(err)
+		}else{
+			res.send(doc);
+		}
+	});
 });
 
 router.get('/delete', function(req, res){

@@ -1,5 +1,6 @@
 $(document).on('click', '#articleNotes', showCommentBox);
 $(document).on('click', '#commentButton', postComment);
+$(document).on('click', '.msgX', deleteComment);
 $(document).on('click', '.close', close);
 
 var articleID;
@@ -14,7 +15,7 @@ function showCommentBox(){
 
 	$.get('/comments/' + articleID, function(data){
 
-		console.log('data comment outside if (entire data):', data.comment);
+		console.log('data comment outside if (entire data):', data);
 		console.log('data comment outside if', data.comment);
 
 
@@ -22,14 +23,15 @@ function showCommentBox(){
 			for(var x = 0; x < data.comment.length; x++){
 
 				console.log('data comment inside if:', data.comment);
-				console.log('data comment inside if comment comment:', data.comment.comment);
-				$('.comments').append("<div><h2>" + data.comment[x].comment + "</h2><span><button>&times;</button></span></div>");
+				console.log('data comment[x] inside if comment comment:', data.comment[x].comment);
+				console.log('data comment[x] ID if comment comment:', data.comment[x]._id);
+				console.log('data comment[x] data._id:', data._id);
+				$('.comments').append("<div class='divMsg'><h2 class='message'>" + data.comment[x].comment + 
+					"<span class='msgX' data-art-id='" + data._id + "' data-cmt-close='" + data.comment[x]._id + "'><button>&times;</button></span></h2></div>");
 			}
 		}
 		$('.main-popup').fadeIn();
 	});
-	
-
 }
 
 function postComment(){
@@ -42,6 +44,23 @@ function postComment(){
 	$.post('/comments/' + articleID, articleComment).done(function(data){
 		$('.main-popup').fadeOut();
 		console.log('DONNE', data);
+	});
+}
+
+function deleteComment(){
+
+	var commentID = {
+		comment: $(this).attr('data-cmt-close')
+	}
+
+	articleID = $(this).attr('data-art-id');
+
+	console.log('COMMENT CLOSE', commentID.comment);
+	console.log('COMMENT CLOSE ARTICLE ID', articleID);
+
+	$.post('/comment/delete/' + articleID, commentID).done(function(data){
+		console.log("SUCCCESSSS DELETED");
+		$('.main-popup').fadeOut();
 	});
 }
 
@@ -61,5 +80,9 @@ window.onclick = function(event) {
     if (event.target.className == 'main-popup') {
         // $('.main-popup').css('display', 'none');
         $('.main-popup').fadeOut();
+    }
+    if(event.target.id === 'myModal') {
+        // $('#myModal').css('display', 'none');
+        $('#myModal').fadeOut();
     }
 }
