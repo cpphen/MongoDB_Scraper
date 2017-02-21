@@ -39,7 +39,7 @@ router.get('/', function(req, res){
 });
 
 router.get('/home', function(req, res){
-	if(scrapeResults.length > 0){
+	// if(scrapeResults.length > 0){
 
 		var stuff = {
 			moreStuff: scrapeResults,
@@ -50,9 +50,9 @@ router.get('/home', function(req, res){
 		// console.log('stufffff', stuff);
 		// console.log('stuff more stuff', stuff.moreStuff);
 		res.render('home', stuff)
-	}else{
-		res.render('home');
-	}
+	// }else{
+	// 	res.render('home');
+	// }
 });
 
 router.get('/scrape', function(req, response){
