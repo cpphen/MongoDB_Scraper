@@ -225,20 +225,30 @@ router.post('/comment/delete/:id', function(req, res){
 			console.log(err);
 			res.send(err)
 		}else{
-			res.send(doc);
+			Comment.remove({ "_id": req.body.comment }, function(err, doc){
+
+				res.send(doc);
+			});
 		}
 	});
 });
 
 router.get('/delete', function(req, res){
 
-	Article.remove({}, function(err){
+	Article.remove({}, function(err, doc){
 
 		if(err){
 			console.log(err)
 		}else{
-			console.log("removed")
-			res.send("deleted");
+			Comment.remove({}, function(err){
+				if(err){
+					console.log(err);
+				}else{
+
+					console.log("removed")
+					res.send("deleted");
+				}
+			});
 		}
 	});
 });
