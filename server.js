@@ -13,7 +13,7 @@ app.use(express.static(process.cwd() + '/public'));
 if(process.env.MONGODB_URI){
 	mongoose.connect(process.env.MONGODB_URI);
 }else{
-	mongoose.connect("mongodb://localhost");
+	mongoose.connect("mongodb://localhost/test");
 }
 
 var db = mongoose.connection;
@@ -28,7 +28,12 @@ db.once('open', function(){
 	console.log('Successfully connected to mongoose!');
 });
 
-app.use(bodyParser.urlencoded({extended: false}));
+// app.use(bodyParser.urlencoded({extended: false}));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.text());
+app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
 app.use('/', routes);
 
