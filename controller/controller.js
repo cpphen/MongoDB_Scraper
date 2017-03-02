@@ -56,9 +56,9 @@ router.get('/home', function(req, res){
 });
 
 router.get('/scrape', function(req, response){
-	
+	console.log("STARTING scrape");
 	request('http://www.gamespot.com/', function(err, res, html){
-
+		console.log("GOT RESPONSE FROM GAMESPOT");
 		var $ = cheerio.load(html);
 		var articleCounter = 1;
 
@@ -95,7 +95,8 @@ router.get('/scrape', function(req, response){
 			articleCounter++;
 
 		});
-	response.redirect('/home')
+		console.log("ABOUT TO REDIRECT");
+		response.redirect('/home')
 	});
 
 
