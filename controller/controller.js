@@ -39,6 +39,7 @@ router.get('/', function(req, res){
 });
 
 router.get('/home', function(req, res){
+	console.log("HOME SCRAPED", scrapeResults);
 	if(scrapeResults.length > 0){
 
 		var stuff = {
