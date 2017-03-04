@@ -75,7 +75,7 @@ router.get('/scrape', function(req, response){
 				reject(err);
 			}else{
 
-				// console.log("GOT RESPONSE FROM GAMESPOT");
+			 console.log("GOT RESPONSE FROM GAMESPOT");
 				var $ = cheerio.load(html);
 				// var articleCounter = 1;
 
@@ -127,6 +127,7 @@ router.get('/scrape', function(req, response){
 					// var finalLength = articleLength.length;
 					response.render('home', {data: {articles: doc, length: articleLength.length, finishScrape: true}})				
 				}else{
+					console.log('ALTERNATE HOME');
 					response.render('home');
 				}
 			}
