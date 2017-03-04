@@ -32,73 +32,111 @@ var cheerio = require('cheerio');
 // 	console.log('Successfully connected to mongoose!');
 // });
 
-var scrapeResults = [];
+// var scrapeResults = [];
 
 router.get('/', function(req, res){
 	res.redirect('/home');
 });
 
 router.get('/home', function(req, res){
-	console.log("HOME SCRAPED", scrapeResults);
-	if(scrapeResults.length > 0){
+	// console.log("HOME SCRAPED", scrapeResults);
+	// if(scrapeResults.length > 0){
 
-		var stuff = {
-			moreStuff: scrapeResults,
-			arrLength: scrapeResults.length,
-			finishScrape: true
-			// sesssion: req.sesssion.seenModal
+	// 	var stuff = {
+	// 		moreStuff: scrapeResults,
+	// 		arrLength: scrapeResults.length,
+	// 		finishScrape: true
+	// 		// sesssion: req.sesssion.seenModal
+	// 	}
+	// 	// console.log('stufffff', stuff);
+	// 	// console.log('stuff more stuff', stuff.moreStuff);
+	// 	res.render('home', stuff)
+	// }else{
+
+	Article.find({}, function(err, doc){
+		if(err){
+			console.log(err)
+		}else{
+			res.render('home', {data: {articles: doc}});
 		}
-		// console.log('stufffff', stuff);
-		// console.log('stuff more stuff', stuff.moreStuff);
-		res.render('home', stuff)
-	}else{
-		res.render('home');
-	}
+	});
+		// res.render('home');
+	// }
 });
 
 router.get('/scrape', function(req, response){
-	console.log("STARTING scrape");
-	request('http://www.gamespot.com/', function(err, res, html){
-		console.log("GOT RESPONSE FROM GAMESPOT");
-		var $ = cheerio.load(html);
-		var articleCounter = 1;
+	// console.log("STARTING scrape");
+	new Promise(function(resolve, reject){
+		request('http://www.gamespot.com/', function(err, res, html){
 
-		$('article a').each(function(i, element){
+			if(err){
+				console.log(err)
+				reject(err);
+			}else{
 
-			// var scrapedStuff = {};
+				// console.log("GOT RESPONSE FROM GAMESPOT");
+				var $ = cheerio.load(html);
+				// var articleCounter = 1;
 
-			var articleID = articleCounter;
-			var title = $(this).attr('data-event-title');
-			var link = $(this).attr('href');
-			var img = $(this).children('figure').children('div.media-img').children('img').attr('src');
-			var description = $(this).children('div.media-body').children('p.media-deck').text();
+				$('article a').each(function(i, element){
 
+					var scrapedStuff = {};
 
-			// var newsStory = new Article(scrapedStuff);
+					// scrapedStuff.articleID = articleCounter;
+					scrapedStuff.title = $(this).attr('data-event-title');
+					scrapedStuff.link = $(this).attr('href');
+					scrapedStuff.img = $(this).children('figure').children('div.media-img').children('img').attr('src');
+					scrapedStuff.description = $(this).children('div.media-body').children('p.media-deck').text();
 
-			// newsStory.save(function(err, doc){
-			// 	if(err){
-			// 		console.log(err);
-			// 	}else{
-			// 		console.log(doc);
-			// 	}
-			// 	// res.redirect('/home/scraped')
-			// });
+					console.log("SCRAPED RESULTS", scrapedStuff);
+					// articleCounter++;
 
-			scrapeResults.push({
-				articleID: articleID,
-				title: title,
-				link: link,
-				img: img,
-				description: description
-			});
+					var scrapedArticles = new Article(scrapedStuff);
 
-			articleCounter++;
+					scrapedArticles.save(function(err, doc){
+						if(err){
+							console.log(err)
+						}else{
+							console.log("NEW METHOD DOCS", doc);
 
+							// response.render('home', {data: doc, finishScrape: true})
+						}
+					})
+
+				})
+				resolve();
+			}
 		});
-		console.log("ABOUT TO REDIRECT");
-		response.redirect('/home')
-	});
+
+
+	}).then(function(){
+
+		Article.find({}, function(err, doc){
+			if(err){
+				console.log(err)
+			}else{
+				if(doc.length > 0){
+					console.log("CHECK TO SEE IF DOCS IN HOME GOT UPDATE", doc)
+					var articleLength = [];
+					for(var x = 0; x < doc.length; x++){
+						if(doc[x].saved === false){
+							articleLength.push(doc[x]);
+						}
+					}
+					// var finalLength = articleLength.length;
+					response.render('home', {data: {articles: doc, length: articleLength.length, finishScrape: true}})				
+				}else{
+					response.render('home');
+				}
+			}
+		});
+	}).catch(function(err){
+		console.log(err);
+	})
+
+		// response.redirect('/home');
+		// console.log("ABOUT TO REDIRECT");
+	// });
 
 
 });
@@ -110,52 +148,64 @@ router.get('/saved', function(req, res){
 		if(error){
 			console.log(error);
 		}else{
-
-			console.log('doc saved articles', doc);
+			if(doc.length > 0){
+				console.log('doc saved articles', doc);
+				var myArticles = {
+					theArticles: doc
+				}
+				console.log("theArticles DOCCCC", myArticles.theArticles[0].saved)
+				res.render('saved', myArticles);
+			}else{
+				res.render('saved');
+			}
 		}
-		var myArticles = {
-			theArticles: doc
-		}
-		res.render('saved', myArticles);
 	});
 });
 
 router.post('/save', function(req, res){
 
 	console.log('REQ BODY BODY', req.body);
-	console.log('REQ BODY', req.body.article);
-	var bodyNum = parseInt(req.body.article);
+	console.log('REQ BODY ARTICLE ID', req.body.article);
+	// var bodyNum = parseInt(req.body.article);
 	
-	for(var i = 0; i < scrapeResults.length; i++){
+	// for(var i = 0; i < scrapeResults.length; i++){
 
-		// console.log('scrapeResults[0]', scrapeResults[0].articleID);
-		// console.log('typeof scrapeResults[i].articleID', typeof scrapeResults[i].articleID);
-		// console.log('typeof req.prams.id', typeof req.params.id)
+	// 	// console.log('scrapeResults[0]', scrapeResults[0].articleID);
+	// 	// console.log('typeof scrapeResults[i].articleID', typeof scrapeResults[i].articleID);
+	// 	// console.log('typeof req.prams.id', typeof req.params.id)
 
-		if(scrapeResults[i].articleID === bodyNum){
+	// 	if(scrapeResults[i].articleID === bodyNum){
 
-			// console.log('scrapeResults[i] inside if statement', scrapeResults[i]);
+	// 		// console.log('scrapeResults[i] inside if statement', scrapeResults[i]);
 
-			var savedArticle = new Article(scrapeResults[i]);
+	// 		var savedArticle = new Article(scrapeResults[i]);
 
-			savedArticle.save(function(err, doc){
-				if(err){
-					console.log(err);
-				}else{
-					console.log('saved doc', doc);
-					// break;
-					// res.send(doc);
-				}
-			});
+	// 		savedArticle.save(function(err, doc){
+	// 			if(err){
+	// 				console.log(err);
+	// 			}else{
+	// 				console.log('saved doc', doc);
+	// 				// break;
+	// 				// res.send(doc);
+	// 			}
+	// 		});
 
-			break;
-		}
-	}
-	console.log('scrapeResults IIII', i);
-	scrapeResults.splice(i, 1);
-	console.log("scrapeResults splice", scrapeResults);
+	// 		break;
+	// 	}
+	// }
+	// console.log('scrapeResults IIII', i);
+	// scrapeResults.splice(i, 1);
+	// console.log("scrapeResults splice", scrapeResults);
 	// req.session.seenModal = true;
-	res.send('done');
+	Article.findOneAndUpdate({ "_id": req.body.article }, { "saved": true }, {"new": true}).exec(function(err, doc){
+		if(err){
+			console.log(err);
+		}else{
+			console.log("DOCS AFTER NEW SAVE CLICK", doc);
+			// res.redirect('/home');
+			res.send("done")
+		}
+	});
 });
 
 router.get('/comments/:id', function(req, res){

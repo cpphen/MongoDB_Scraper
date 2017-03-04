@@ -1,4 +1,5 @@
 $(document).on('click', '#save', saveArticle);
+// $(document).on('click', '.scrape', scrape);
 $(document).on('click', '.close', close);
 // var modal = $('#myModal');
 
@@ -22,6 +23,14 @@ window.onclick = function(event) {
         $('#myModal').fadeOut();
     }
 }
+// function scrape(){
+
+// 	$.post('/scrape').done(function(){
+// 		console.log("ITSSSS HEREEEEEEEEEEEEEE")
+// 		window.location = window.location;
+// 		$('.modal').css('display', 'block');
+// 	});
+// }
 
 function saveArticle(){
 
@@ -33,13 +42,17 @@ function saveArticle(){
 		article: article
 	}
 
-	console.log('data ID', typeof article);
+	console.log('data ID', article);
 
 	$.post('/save', savedArticle).done(function(data){
 
 		//****************************************
 		//After post is done, change or refresh page back changing url to the same url.
 		$('#myModal').css('display', 'none');
-		window.location = window.location;
+		console.log("WINDOW LOCATION", window.location);
+		//sets the url to localhost:portNumber/home
+		//This was done so that it can change to the home url and do a get request on that route so modal wont show
+		//up again, since the boolean that determines it gets shown is not passed in the 'home' route.
+		window.location.pathname = '/home';
 	});
 }

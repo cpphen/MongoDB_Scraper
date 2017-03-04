@@ -1,11 +1,19 @@
-.jumbotron {
+div.jumbotron {
   text-align: center;
   /*border-bottom: 1px solid #e5e5e5;*/
   /*background-color: transparent !important;*/
   background: url('/assets/img/nintendo.jpg');
   background-size: cover;
   background-repeat: no-repeat;
-  height: 500px;
+  height: 450px;
+  margin-bottom: 5px;
+}
+.panel-danger, .panel-primary{
+  margin: 0px;
+}
+.panel-heading{
+  font-size: xx-large;
+  text-align: center;
 }
 .navLI, .navTitle{
 	color: white;
@@ -21,7 +29,7 @@
 	margin-bottom: 200px;
 }
 .modal {
-    /*display: block; *//* Hidden by default */
+    display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
     left: 0;
@@ -125,4 +133,7 @@ span.close {
 }
 #articleButton{
   color: white;
+}
+.navTitle{
+  margin: 10px;
 }

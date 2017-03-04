@@ -14,6 +14,10 @@ var ArticleSchema = new Schema({
 	description: {
 		type: String
 	},
+	saved: {
+		type: Boolean,
+		default: false
+	},
 	img: {
 		type: String
 	},
