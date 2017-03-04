@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+//mumbo jumbo
 //Database set up
 // var mongoose = require('mongoose');
 
