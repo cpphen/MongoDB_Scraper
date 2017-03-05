@@ -67,6 +67,8 @@ router.get('/home', function(req, res){
 
 router.get('/scrape', function(req, response){
 	// console.log("STARTING scrape");
+	var scrapedStuff = [];
+
 	new Promise(function(resolve, reject){
 		request('http://www.gamespot.com/', function(err, res, html){
 
@@ -75,37 +77,50 @@ router.get('/scrape', function(req, response){
 				reject(err);
 			}else{
 
-			 console.log("GOT RESPONSE FROM GAMESPOT");
+				// console.log("GOT RESPONSE FROM GAMESPOT");
 				var $ = cheerio.load(html);
 				// var articleCounter = 1;
 
 				$('article a').each(function(i, element){
 
-					var scrapedStuff = {};
+					// var scrapedStuff = {};
 
 					// scrapedStuff.articleID = articleCounter;
-					scrapedStuff.title = $(this).attr('data-event-title');
-					scrapedStuff.link = $(this).attr('href');
-					scrapedStuff.img = $(this).children('figure').children('div.media-img').children('img').attr('src');
-					scrapedStuff.description = $(this).children('div.media-body').children('p.media-deck').text();
+					scrapedStuff.push({
+						title: $(this).attr('data-event-title'),
+						link:  $(this).attr('href'),
+						img: $(this).children('figure').children('div.media-img').children('img').attr('src'),
+						description: $(this).children('div.media-body').children('p.media-deck').text()
+					})
+					// scrapedStuff.title = $(this).attr('data-event-title');
+					// scrapedStuff.link = $(this).attr('href');
+					// scrapedStuff.img = $(this).children('figure').children('div.media-img').children('img').attr('src');
+					// scrapedStuff.description = $(this).children('div.media-body').children('p.media-deck').text();
 
 					console.log("SCRAPED RESULTS", scrapedStuff);
 					// articleCounter++;
 
-					var scrapedArticles = new Article(scrapedStuff);
+					// var scrapedArticles = new Article(scrapedStuff);
 
-					scrapedArticles.save(function(err, doc){
-						if(err){
-							console.log(err)
-						}else{
-							console.log("NEW METHOD DOCS", doc);
+					// scrapedArticles.save(function(err, doc){
+					// 	if(err){
+					// 		console.log(err)
+					// 	}else{
+					// 		console.log("NEW METHOD DOCS", doc);
 
-							// response.render('home', {data: doc, finishScrape: true})
-						}
-					})
+					// 		// response.render('home', {data: doc, finishScrape: true})
+					// 	}
+					// })
 
-				})
-				resolve();
+				});
+				Article.insertMany(scrapedStuff, function(err, docs){
+					if(err){
+						console.log(err);
+					}else{
+						console.log("INSERT MANY DOCS", docs);
+						resolve();
+					}
+				});
 			}
 		});
 
@@ -127,7 +142,6 @@ router.get('/scrape', function(req, response){
 					// var finalLength = articleLength.length;
 					response.render('home', {data: {articles: doc, length: articleLength.length, finishScrape: true}})				
 				}else{
-					console.log('ALTERNATE HOME');
 					response.render('home');
 				}
 			}
