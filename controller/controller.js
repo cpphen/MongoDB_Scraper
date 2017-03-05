@@ -114,7 +114,7 @@ router.get('/scrape', function(req, response){
 
 				});
 				console.log("FINISHED SCRAPING")
-				Article.insertMany(scrapedStuff, function(err, docs){
+				Article.collection.insertMany(scrapedStuff, function(err, docs){
 					if(err){
 						console.log(err);
 					}else{
