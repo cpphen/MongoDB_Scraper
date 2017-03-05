@@ -77,7 +77,7 @@ router.get('/scrape', function(req, response){
 				reject(err);
 			}else{
 
-				// console.log("GOT RESPONSE FROM GAMESPOT");
+				console.log("GOT RESPONSE FROM GAMESPOT");
 				var $ = cheerio.load(html);
 				// var articleCounter = 1;
 
@@ -113,11 +113,13 @@ router.get('/scrape', function(req, response){
 					// })
 
 				});
+				console.log("FINISHED SCRAPING")
 				Article.insertMany(scrapedStuff, function(err, docs){
 					if(err){
 						console.log(err);
 					}else{
 						console.log("INSERT MANY DOCS", docs);
+						console.log("FINISHED SCRAPING 22222")
 						resolve();
 					}
 				});
