@@ -17,7 +17,7 @@ var scrape = require('./scrape');
 
 var scraper = function (response, scrapedStuff, displayScrape) {
 
-	Article.collection.insertMany(scrapedStuff, function(err, docs){
+	Article.insertMany(scrapedStuff, function(err, docs){
 		if(err){
 			console.log(err);
 		}else{
