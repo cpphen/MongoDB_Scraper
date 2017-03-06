@@ -13,7 +13,6 @@ var Comment = require('../models/Comment');
 var request = require('request');
 var cheerio = require('cheerio');
 
-
 router.get('/', function(req, res){
 	res.redirect('/home');
 });
@@ -46,7 +45,6 @@ router.get('/home', function(req, res){
 
 router.get('/scrape', function(req, response){
 	// console.log("STARTING scrape");
-	var scrapedStuff = [];
 
 	new Promise(function(resolve, reject){
 		request('http://www.gamespot.com/', function(err, res, html){
@@ -56,6 +54,7 @@ router.get('/scrape', function(req, response){
 				reject(err);
 			}else{
 
+				var scrapedStuff = [];
 				console.log("GOT RESPONSE FROM GAMESPOT");
 				var $ = cheerio.load(html);
 				// var articleCounter = 1;
@@ -98,7 +97,7 @@ router.get('/scrape', function(req, response){
 						console.log(err);
 					}else{
 						console.log("INSERT MANY DOCS", docs);
-						console.log("FINISHED SCRAPING 22222")
+						console.log("FINISHED SCRAPING ELSE")
 						resolve();
 					}
 				});
