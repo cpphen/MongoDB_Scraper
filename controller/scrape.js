@@ -1,7 +1,9 @@
 var request = require('request');
 var cheerio = require('cheerio');
 
-module.exports = function(response, scraper, displayScrape) {
+module.exports = {
+
+	scrape: function(response, scraper, displayScrape) {
 
 	request('http://www.gamespot.com/', function(err, res, html){
 
@@ -10,8 +12,8 @@ module.exports = function(response, scraper, displayScrape) {
 			console.log(err)
 			// reject(err);
 		}
-		else
-		{
+		// else
+		
 
 			var scrapedStuff = [];
 			console.log("GOT RESPONSE FROM GAMESPOT");
@@ -52,6 +54,7 @@ module.exports = function(response, scraper, displayScrape) {
 			});
 			scraper(response, scrapedStuff, displayScrape);
 
-		}
-	});
+		
+		});
+	}
 }
