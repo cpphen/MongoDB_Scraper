@@ -13,27 +13,6 @@ var Comment = require('../models/Comment');
 var request = require('request');
 var cheerio = require('cheerio');
 
-//Connect to database
-// mongoose.connect("mongodb://localhost");
-
-// if(process.env.MONGODB_URI){
-// 	mongoose.connect(process.env.MONGODB_URI);
-// }else{
-// 	mongoose.connect("mongodb://localhost");
-// }
-// var db = mongoose.connection;
-
-//Show errors in any
-// db.on('error', function(err){
-// 	console.log("Mongoose Error: ", err);
-// });
-
-// //Show connection notification if connected
-// db.once('open', function(){
-// 	console.log('Successfully connected to mongoose!');
-// });
-
-// var scrapeResults = [];
 
 router.get('/', function(req, res){
 	res.redirect('/home');
