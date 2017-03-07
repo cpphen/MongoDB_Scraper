@@ -16,6 +16,7 @@ var Comment = require('../models/Comment');
 var scrape = require('./scrape');
 
 var scraper = function (response, scrapedStuff, displayScrape) {
+	console.log("INSIDE SCRAPER CALLBACK FUNCTION (INSERTMANY)")
 
 	Article.collection.insertMany(scrapedStuff, function(err, docs){
 		if(err){

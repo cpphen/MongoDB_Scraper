@@ -36,7 +36,6 @@ module.exports = {
 				// scrapedStuff.img = $(this).children('figure').children('div.media-img').children('img').attr('src');
 				// scrapedStuff.description = $(this).children('div.media-body').children('p.media-deck').text();
 
-				console.log("SCRAPED RESULTS", scrapedStuff);
 				// articleCounter++;
 
 				// var scrapedArticles = new Article(scrapedStuff);
@@ -52,6 +51,7 @@ module.exports = {
 				// })
 
 			});
+			console.log("SCRAPED RESULTS", scrapedStuff);
 			scraper(response, scrapedStuff, displayScrape);
 
 		
