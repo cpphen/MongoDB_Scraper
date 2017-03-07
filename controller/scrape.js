@@ -3,67 +3,56 @@ var cheerio = require('cheerio');
 
 
 
-	var scrape = function(response, scraper, displayScrape) {
-	console.log("ONNNNNNNNNEEEEEEEEEEE")
+var scrape = function(response, scraper, displayScrape) {
+console.log("ONNNNNNNNNEEEEEEEEEEE")
+	new Promise(function(resolve, reject){
+		var scrapedStuff = [];
 
-	request('http://www.gamespot.com/', function(err, res, html){
+		request('http://www.gamespot.com/', function(err, res, html){
 
-		if(err)
-		{
-			console.log(err)
-			// reject(err);
-		}
-		// else
-		
+			if(err)
+			{
+				console.log(err)
+				reject(err);
+			}
+			// else
+			
 
-			var scrapedStuff = [];
-			console.log("GOT RESPONSE FROM GAMESPOT");
-			var $ = cheerio.load(html);
-			// var articleCounter = 1;
+				console.log("GOT RESPONSE FROM GAMESPOT");
+				var $ = cheerio.load(html);
+				// var articleCounter = 1;
 
-			$('article a').each(function(i, element){
+				$('article a').each(function(i, element){
 
-				// var scrapedStuff = {};
+					// var scrapedStuff = {};
 
-				// scrapedStuff.articleID = articleCounter;
-				var scrpObj = {
-					title: $(this).attr('data-event-title'),
-					link:  $(this).attr('href'),
-					img: $(this).children('figure').children('div.media-img').children('img').attr('src'),
-					description: $(this).children('div.media-body').children('p.media-deck').text() 
-				}
-				scrapedStuff.push(scrpObj);
-				// scrapedStuff.push({
-				// 	title: $(this).attr('data-event-title'),
-				// 	link:  $(this).attr('href'),
-				// 	img: $(this).children('figure').children('div.media-img').children('img').attr('src'),
-				// 	description: $(this).children('div.media-body').children('p.media-deck').text()
-				// })
-				// scrapedStuff.title = $(this).attr('data-event-title');
-				// scrapedStuff.link = $(this).attr('href');
-				// scrapedStuff.img = $(this).children('figure').children('div.media-img').children('img').attr('src');
-				// scrapedStuff.description = $(this).children('div.media-body').children('p.media-deck').text();
+					// scrapedStuff.articleID = articleCounter;
+					var scrpObj = {
+						title: $(this).attr('data-event-title'),
+						link:  $(this).attr('href'),
+						img: $(this).children('figure').children('div.media-img').children('img').attr('src'),
+						description: $(this).children('div.media-body').children('p.media-deck').text() 
+					}
+					scrapedStuff.push(scrpObj);
 
-				// articleCounter++;
+				});
 
-				// var scrapedArticles = new Article(scrapedStuff);
+				resolve(scrapedStuff);
+				console.log("SCRAPED RESULTS", scrapedStuff);
 
-				// scrapedArticles.save(function(err, doc){
-				// 	if(err){
-				// 		console.log(err)
-				// 	}else{
-				// 		console.log("NEW METHOD DOCS", doc);
-
-				// 		// response.render('home', {data: doc, finishScrape: true})
-				// 	}
-				// })
-
-			});
-			console.log("SCRAPED RESULTS", scrapedStuff);
-			scraper(response, scrapedStuff, displayScrape);
-
-		
+			
 		});
-	}
+
+
+		
+	}).then(function(scrapedStuff){
+		scraper(response, scrapedStuff, displayScrape);
+
+	}).catch(function(err){
+		if(err){
+			console.log(err);
+		}
+	});
+}
 module.exports = scrape;	
 // }
