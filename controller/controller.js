@@ -88,7 +88,7 @@ router.get('/home', function(req, res){
 });
 
 router.get('/scrape', function(req, response){
-	scrape.scrape(response, scraper, displayScrape);
+	scrape(response, scraper, displayScrape);
 	// console.log("STARTING scrape");
 
 	// new Promise(function(resolve, reject){

@@ -1,9 +1,9 @@
 var request = require('request');
 var cheerio = require('cheerio');
 
-module.exports = {
 
-	scrape: function(response, scraper, displayScrape) {
+
+	var scrape = function(response, scraper, displayScrape) {
 	console.log("ONNNNNNNNNEEEEEEEEEEE")
 
 	request('http://www.gamespot.com/', function(err, res, html){
@@ -64,5 +64,6 @@ module.exports = {
 
 		
 		});
-	}	
-}
+	}
+module.exports = scrape;	
+// }
