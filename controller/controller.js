@@ -10,52 +10,52 @@ var Article = require('../models/Article');
 var Comment = require('../models/Comment');
 
 //Set up web scraper
-var request = require('request');
-var cheerio = require('cheerio');
+// var request = require('request');
+// var cheerio = require('cheerio');
 
-// var scrape = require('./scrape');
+var scrape = require('./scrape');
 
-// var scraper = function (response, scrapedStuff, displayScrape) {
-// 	console.log("INSIDE SCRAPER CALLBACK FUNCTION (INSERTMANY)", scrapedStuff)
-// 	console.log("TWOOOOOOOOOOOOOOOOOOOOOOOOOO")
+var scraper = function (response, scrapedStuff, displayScrape) {
+	console.log("INSIDE SCRAPER CALLBACK FUNCTION (INSERTMANY)", scrapedStuff)
+	console.log("TWOOOOOOOOOOOOOOOOOOOOOOOOOO")
 
-// 	Article.collection.insertMany(scrapedStuff, { ordered: false }, function(err, docs){
-// 		if(err){
-// 			console.log(err);
-// 		}else{
-// 			console.log("INSERT MANY DOCS", docs);
-// 			console.log("FINISHED SCRAPING ELSE")
-// 			// resolve();
-// 			displayScrape(response);
-// 		}
-// 	});
+	Article.collection.insertMany(scrapedStuff, { ordered: false }, function(err, docs){
+		if(err){
+			console.log(err);
+		}else{
+			console.log("INSERT MANY DOCS", docs);
+			console.log("FINISHED SCRAPING ELSE")
+			// resolve();
+			displayScrape(response);
+		}
+	});
 
-// }
+}
 
-// var displayScrape = function(response){
-// 	console.log("THREEEEEEEEEEEEEEEEEEEEEEE")
+var displayScrape = function(response){
+	console.log("THREEEEEEEEEEEEEEEEEEEEEEE")
 
-// 	Article.find({}, function(err, doc){
-// 		if(err){
-// 			console.log(err)
-// 		}else{
-// 			if(doc.length > 0){
-// 				console.log("CHECK TO SEE IF DOCS IN HOME GOT UPDATE", doc)
-// 				var articleLength = [];
-// 				for(var x = 0; x < doc.length; x++){
-// 					if(doc[x].saved === false){
-// 						articleLength.push(doc[x]);
-// 					}
-// 				}
-// 				// var finalLength = articleLength.length;
-// 				response.render('home', {data: {articles: doc, length: articleLength.length, finishScrape: true}})				
-// 			}else{
-// 				response.render('home');
-// 			}
-// 		}
-// 	});
+	Article.find({}, function(err, doc){
+		if(err){
+			console.log(err)
+		}else{
+			if(doc.length > 0){
+				console.log("CHECK TO SEE IF DOCS IN HOME GOT UPDATE", doc)
+				var articleLength = [];
+				for(var x = 0; x < doc.length; x++){
+					if(doc[x].saved === false){
+						articleLength.push(doc[x]);
+					}
+				}
+				// var finalLength = articleLength.length;
+				response.render('home', {data: {articles: doc, length: articleLength.length, finishScrape: true}})				
+			}else{
+				response.render('home');
+			}
+		}
+	});
 
-// }
+}
 
 router.get('/', function(req, res){
 	res.redirect('/home');
@@ -88,92 +88,92 @@ router.get('/home', function(req, res){
 });
 
 router.get('/scrape', function(req, response){
-	// scrape(response, scraper, displayScrape);
+	scrape(response, scraper, displayScrape);
 	// console.log("STARTING scrape");
 
-	new Promise(function(resolve, reject){
-		request('http://www.gamespot.com/', function(err, res, html){
+	// new Promise(function(resolve, reject){
+	// 	request('http://www.gamespot.com/', function(err, res, html){
 
-			if(err){
-				console.log(err)
-				reject(err);
-			}else{
+	// 		if(err){
+	// 			console.log(err)
+	// 			reject(err);
+	// 		}else{
 
-				var scrapedStuff = [];
-				console.log("GOT RESPONSE FROM GAMESPOT");
-				var $ = cheerio.load(html);
-				// var articleCounter = 1;
+	// 			var scrapedStuff = [];
+	// 			console.log("GOT RESPONSE FROM GAMESPOT");
+	// 			var $ = cheerio.load(html);
+	// 			// var articleCounter = 1;
 
-				$('article a').each(function(i, element){
+	// 			$('article a').each(function(i, element){
 
-					// var scrapedStuff = {};
+	// 				// var scrapedStuff = {};
 
-					// scrapedStuff.articleID = articleCounter;
-					scrapedStuff.push({
-						title: $(this).attr('data-event-title'),
-						link:  $(this).attr('href'),
-						img: $(this).children('figure').children('div.media-img').children('img').attr('src'),
-						description: $(this).children('div.media-body').children('p.media-deck').text()
-					})
-					// scrapedStuff.title = $(this).attr('data-event-title');
-					// scrapedStuff.link = $(this).attr('href');
-					// scrapedStuff.img = $(this).children('figure').children('div.media-img').children('img').attr('src');
-					// scrapedStuff.description = $(this).children('div.media-body').children('p.media-deck').text();
+	// 				// scrapedStuff.articleID = articleCounter;
+	// 				scrapedStuff.push({
+	// 					title: $(this).attr('data-event-title'),
+	// 					link:  $(this).attr('href'),
+	// 					img: $(this).children('figure').children('div.media-img').children('img').attr('src'),
+	// 					description: $(this).children('div.media-body').children('p.media-deck').text()
+	// 				})
+	// 				// scrapedStuff.title = $(this).attr('data-event-title');
+	// 				// scrapedStuff.link = $(this).attr('href');
+	// 				// scrapedStuff.img = $(this).children('figure').children('div.media-img').children('img').attr('src');
+	// 				// scrapedStuff.description = $(this).children('div.media-body').children('p.media-deck').text();
 
-					console.log("SCRAPED RESULTS", scrapedStuff);
-					// articleCounter++;
+	// 				console.log("SCRAPED RESULTS", scrapedStuff);
+	// 				// articleCounter++;
 
-					// var scrapedArticles = new Article(scrapedStuff);
+	// 				// var scrapedArticles = new Article(scrapedStuff);
 
-					// scrapedArticles.save(function(err, doc){
-					// 	if(err){
-					// 		console.log(err)
-					// 	}else{
-					// 		console.log("NEW METHOD DOCS", doc);
+	// 				// scrapedArticles.save(function(err, doc){
+	// 				// 	if(err){
+	// 				// 		console.log(err)
+	// 				// 	}else{
+	// 				// 		console.log("NEW METHOD DOCS", doc);
 
-					// 		// response.render('home', {data: doc, finishScrape: true})
-					// 	}
-					// })
+	// 				// 		// response.render('home', {data: doc, finishScrape: true})
+	// 				// 	}
+	// 				// })
 
-				});
-				console.log("FINISHED SCRAPING")
-				Article.collection.insertMany(scrapedStuff, { ordered: false }, function(err, docs){
-					if(err){
-						console.log(err);
-					}else{
-						console.log("INSERT MANY DOCS", docs);
-						console.log("FINISHED SCRAPING ELSE")
-						resolve();
-					}
-				});
-			}
-		});
+	// 			});
+	// 			console.log("FINISHED SCRAPING")
+	// 			Article.collection.insertMany(scrapedStuff, function(err, docs){
+	// 				if(err){
+	// 					console.log(err);
+	// 				}else{
+	// 					console.log("INSERT MANY DOCS", docs);
+	// 					console.log("FINISHED SCRAPING ELSE")
+	// 					resolve();
+	// 				}
+	// 			});
+	// 		}
+	// 	});
 
 
-	}).then(function(){
+	// }).then(function(){
 
-		Article.find({}, function(err, doc){
-			if(err){
-				console.log(err)
-			}else{
-				if(doc.length > 0){
-					console.log("CHECK TO SEE IF DOCS IN HOME GOT UPDATE", doc)
-					var articleLength = [];
-					for(var x = 0; x < doc.length; x++){
-						if(doc[x].saved === false){
-							articleLength.push(doc[x]);
-						}
-					}
-					// var finalLength = articleLength.length;
-					response.render('home', {data: {articles: doc, length: articleLength.length, finishScrape: true}})				
-				}else{
-					response.render('home');
-				}
-			}
-		});
-	}).catch(function(err){
-		console.log(err);
-	})
+	// 	Article.find({}, function(err, doc){
+	// 		if(err){
+	// 			console.log(err)
+	// 		}else{
+	// 			if(doc.length > 0){
+	// 				console.log("CHECK TO SEE IF DOCS IN HOME GOT UPDATE", doc)
+	// 				var articleLength = [];
+	// 				for(var x = 0; x < doc.length; x++){
+	// 					if(doc[x].saved === false){
+	// 						articleLength.push(doc[x]);
+	// 					}
+	// 				}
+	// 				// var finalLength = articleLength.length;
+	// 				response.render('home', {data: {articles: doc, length: articleLength.length, finishScrape: true}})				
+	// 			}else{
+	// 				response.render('home');
+	// 			}
+	// 		}
+	// 	});
+	// }).catch(function(err){
+	// 	console.log(err);
+	// })
 
 		// response.redirect('/home');
 		// console.log("ABOUT TO REDIRECT");

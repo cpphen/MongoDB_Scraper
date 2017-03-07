@@ -33,13 +33,11 @@ console.log("ONNNNNNNNNEEEEEEEEEEE")
 						description: $(this).children('div.media-body').children('p.media-deck').text() 
 					}
 					scrapedStuff.push(scrpObj);
-
 				});
+				
 				console.log("SCRAPED RESULTS", scrapedStuff);
 				scraper(response, scrapedStuff, displayScrape);
-
-			
-			});
+		});
 }
 module.exports = scrape;	
 // }
