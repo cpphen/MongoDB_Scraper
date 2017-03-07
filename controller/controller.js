@@ -17,6 +17,7 @@ var scrape = require('./scrape');
 
 var scraper = function (response, scrapedStuff, displayScrape) {
 	console.log("INSIDE SCRAPER CALLBACK FUNCTION (INSERTMANY)")
+	console.log("TWOOOOOOOOOOOOOOOOOOOOOOOOOO")
 
 	Article.collection.insertMany(scrapedStuff, function(err, docs){
 		if(err){
@@ -32,6 +33,7 @@ var scraper = function (response, scrapedStuff, displayScrape) {
 }
 
 var displayScrape = function(response){
+	console.log("THREEEEEEEEEEEEEEEEEEEEEEE")
 
 	Article.find({}, function(err, doc){
 		if(err){
