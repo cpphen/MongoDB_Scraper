@@ -4,6 +4,7 @@ var cheerio = require('cheerio');
 module.exports = {
 
 	scrape: function(response, scraper, displayScrape) {
+	console.log("ONNNNNNNNNEEEEEEEEEEE")
 
 	request('http://www.gamespot.com/', function(err, res, html){
 
