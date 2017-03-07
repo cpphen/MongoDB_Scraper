@@ -26,12 +26,19 @@ module.exports = {
 				// var scrapedStuff = {};
 
 				// scrapedStuff.articleID = articleCounter;
-				scrapedStuff.push({
+				var scrpObj = {
 					title: $(this).attr('data-event-title'),
 					link:  $(this).attr('href'),
 					img: $(this).children('figure').children('div.media-img').children('img').attr('src'),
-					description: $(this).children('div.media-body').children('p.media-deck').text()
-				})
+					description: $(this).children('div.media-body').children('p.media-deck').text() 
+				}
+				scrapedStuff.push(scrpObj);
+				// scrapedStuff.push({
+				// 	title: $(this).attr('data-event-title'),
+				// 	link:  $(this).attr('href'),
+				// 	img: $(this).children('figure').children('div.media-img').children('img').attr('src'),
+				// 	description: $(this).children('div.media-body').children('p.media-deck').text()
+				// })
 				// scrapedStuff.title = $(this).attr('data-event-title');
 				// scrapedStuff.link = $(this).attr('href');
 				// scrapedStuff.img = $(this).children('figure').children('div.media-img').children('img').attr('src');
@@ -53,9 +60,9 @@ module.exports = {
 
 			});
 			console.log("SCRAPED RESULTS", scrapedStuff);
+			scraper(response, scrapedStuff, displayScrape);
 
 		
 		});
-		scraper(response, scrapedStuff, displayScrape);
 	}	
 }
