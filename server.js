@@ -13,7 +13,7 @@ app.use(express.static(process.cwd() + '/public'));
 if(process.env.MONGODB_URI){
 	mongoose.connect(process.env.MONGODB_URI);
 }else{
-	mongoose.connect("mongodb://localhost/test");
+	mongoose.connect("mongodb://localhost/scraper");
 }
 
 var db = mongoose.connection;
