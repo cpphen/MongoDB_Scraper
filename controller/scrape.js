@@ -53,9 +53,9 @@ module.exports = {
 
 			});
 			console.log("SCRAPED RESULTS", scrapedStuff);
-			scraper(response, scrapedStuff, displayScrape);
 
 		
 		});
+		scraper(response, scrapedStuff, displayScrape);
 	}	
 }
