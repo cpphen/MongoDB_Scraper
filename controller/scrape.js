@@ -5,19 +5,18 @@ var cheerio = require('cheerio');
 
 var scrape = function(response, scraper, displayScrape) {
 console.log("ONNNNNNNNNEEEEEEEEEEE")
-	new Promise(function(resolve, reject){
-		var scrapedStuff = [];
 
 		request('http://www.gamespot.com/', function(err, res, html){
 
 			if(err)
 			{
 				console.log(err)
-				reject(err);
+				// reject(err);
 			}
 			// else
 			
 
+				var scrapedStuff = [];
 				console.log("GOT RESPONSE FROM GAMESPOT");
 				var $ = cheerio.load(html);
 				// var articleCounter = 1;
@@ -36,23 +35,11 @@ console.log("ONNNNNNNNNEEEEEEEEEEE")
 					scrapedStuff.push(scrpObj);
 
 				});
-
-				resolve(scrapedStuff);
 				console.log("SCRAPED RESULTS", scrapedStuff);
+				scraper(response, scrapedStuff, displayScrape);
 
 			
-		});
-
-
-		
-	}).then(function(scrapedStuff){
-		scraper(response, scrapedStuff, displayScrape);
-
-	}).catch(function(err){
-		if(err){
-			console.log(err);
-		}
-	});
+			});
 }
 module.exports = scrape;	
 // }
