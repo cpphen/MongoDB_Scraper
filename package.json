@@ -1,6 +1,6 @@
 {
   "name": "mongoscraper",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Use MongoDB, MVC pattern, and web scraping to create an app that will feature commenting on articles.",
   "main": "app.js",
   "scripts": {

@@ -19,7 +19,7 @@ var scraper = function (response, scrapedStuff, displayScrape) {
 	console.log("INSIDE SCRAPER CALLBACK FUNCTION (INSERTMANY)", scrapedStuff)
 	console.log("TWOOOOOOOOOOOOOOOOOOOOOOOOOO")
 
-	Article.insertMany(scrapedStuff, function(err, docs){
+	Article.collection.insertMany(scrapedStuff, { ordered: false }, function(err, docs){
 		if(err){
 			console.log(err);
 		}else{
