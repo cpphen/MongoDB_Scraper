@@ -6,7 +6,7 @@ var cheerio = require('cheerio');
 var scrape = function(response, scraper, displayScrape) {
 console.log("ONNNNNNNNNEEEEEEEEEEE")
 
-		request('http://www.gamespot.com/', function(err, res, html){
+		request("http://www.nytimes.com", function(err, res, body) {
 
 			if(err)
 			{
@@ -18,23 +18,24 @@ console.log("ONNNNNNNNNEEEEEEEEEEE")
 
 				var scrapedStuff = [];
 				console.log("GOT RESPONSE FROM GAMESPOT");
-				var $ = cheerio.load(html);
+				var $ = cheerio.load(body);
 				// var articleCounter = 1;
 
-				$('article a').each(function(i, element){
+				$(".theme-summary").each(function(i, element) {
+
+					var title = $(this).children(".story-heading").text().trim();
+				    var description = $(this).children(".summary").text().trim();
 
 					// var scrapedStuff = {};
 
 					// scrapedStuff.articleID = articleCounter;
-					var title = $(this).attr('data-event-title');
-					var link = $(this).attr('href');
-					var img = $(this).children('figure').children('div.media-img').children('img').attr('src');
-					var description = $(this).children('div.media-body').children('p.media-deck').text().trim();
+					// var title = $(this).attr('data-event-title');
+					// var link = $(this).attr('href');
+					// var img = $(this).children('figure').children('div.media-img').children('img').attr('src');
+					// var description = $(this).children('div.media-body').children('p.media-deck').text().trim();
 
 					var scrpObj = {
 						title: title,
-						link:  link,
-						img: img,
 						description: description
 					}
 
