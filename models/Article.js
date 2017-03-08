@@ -8,12 +8,18 @@ var ArticleSchema = new Schema({
 	title: {
 		type: String
 	},
+	link: {
+		type: String
+	},
 	description: {
 		type: String
 	},
 	saved: {
 		type: Boolean,
 		default: false
+	},
+	img: {
+		type: String
 	},
 	comment: [{
 		type: Schema.Types.ObjectId,
