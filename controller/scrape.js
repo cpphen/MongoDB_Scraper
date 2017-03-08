@@ -26,15 +26,21 @@ console.log("ONNNNNNNNNEEEEEEEEEEE")
 					// var scrapedStuff = {};
 
 					// scrapedStuff.articleID = articleCounter;
+					var title = $(this).attr('data-event-title');
+					var link = $(this).attr('href');
+					var img = $(this).children('figure').children('div.media-img').children('img').attr('src');
+					var description = $(this).children('div.media-body').children('p.media-deck').text().trim();
+
 					var scrpObj = {
-						title: $(this).attr('data-event-title'),
-						link:  $(this).attr('href'),
-						img: $(this).children('figure').children('div.media-img').children('img').attr('src'),
-						description: $(this).children('div.media-body').children('p.media-deck').text() 
+						title: title,
+						link:  link,
+						img: img,
+						description: description
 					}
+
 					scrapedStuff.push(scrpObj);
 				});
-				
+
 				console.log("SCRAPED RESULTS", scrapedStuff);
 				scraper(response, scrapedStuff, displayScrape);
 		});
