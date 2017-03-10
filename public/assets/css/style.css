@@ -8,6 +8,10 @@ div.jumbotron {
   height: 515px;
   margin-bottom: 5px;
 }
+img{
+  width: 200px;
+  height: 150px; 
+}
 .panel-danger, .panel-primary{
   margin: 0px;
 }
@@ -127,6 +131,10 @@ span.close {
 }
 .media-heading{
 	background-color: #ffff00;
+  margin-top: 10px;
+}
+.media-body{
+  background-color: pink;
 }
 .btn{
 	width: 200px;
