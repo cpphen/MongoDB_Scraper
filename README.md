@@ -12,3 +12,16 @@
   and the Comment model
 
 
+- JavaScript
+
+- MongoDB
+
+- Express
+
+- Cheerio
+
+- JQuery
+
+- Handlebar
+
+- HTML
