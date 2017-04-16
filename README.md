@@ -14,6 +14,8 @@
 
 - JavaScript
 
+- Node JS
+
 - MongoDB
 
 - Express
