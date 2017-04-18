@@ -27,3 +27,8 @@
 - Handlebar
 
 - HTML
+
+
+To install, copy link, clone onto computer, then in with the shell, goto to the root directory of the project and run command: npm install
+
+After everything is finished installing, run commande node server.js, then in browser goto to the provided localhost url.
